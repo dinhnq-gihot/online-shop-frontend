@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: online-shop-frontend-deployment
+  labels:
+    app: online-shop-frontend
+  namespace: online-shop
+spec:
+  selector:
+    matchLabels:
+      app: online-shop-frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: online-shop-frontend
+    spec:
+      imagePullSecrets:
+        - name: auth-registry
+      containers:
+        - name: online-shop-frontend
+          image: ghcr.io/dinhnq-gihot/online-shop-frontend:latest
+          ports:
+            - containerPort: 80
+          imagePullPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: online-shop-frontend-service
+  namespace: online-shop
+spec: 
+  selector:
+    app: online-shop-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: online-shop-frontend-ingress
+    namespace: online-shop
+spec:
+    ingressClassName: nginx
+    rules:
+    - host: online-shop.devopsedu.vn
+      http:
+        paths:
+            - pathType: Prefix
+              frontend:
+                service:
+                    name: online-shop-frontend-service
+                    port:
+                        number: 80
+              path: /

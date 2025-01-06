@@ -2,7 +2,7 @@ version: '3.9' # Specify the version of Docker Compose
 
 services:
   frontend:
-    image: ghcr.io/dinhnq-gihot/online-shop-frontend:${IMAGE_VERSION} # Use the Docker image you mentioned
+    image: ghcr.io/dinhnq-gihot/online-shop-frontend:latest # Use the Docker image you mentioned
     container_name: online-shop-frontend
     ports:
       - "5080:80" # Map host port 5214 to container port 5214

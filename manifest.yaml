@@ -51,7 +51,7 @@ spec:
       http:
         paths:
             - pathType: Prefix
-              frontend:
+              backend:
                 service:
                     name: online-shop-frontend-service
                     port:
